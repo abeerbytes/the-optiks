@@ -7,7 +7,7 @@ export const STORE_CONFIG = {
   whatsapp: "923329999773",            // country code + number, digits only
   currency: "PKR",
   // Public customer order API deployment URL.
-  googleSheetApi: "https://script.google.com/macros/s/AKfycbys7V8X4RIbyx2W9oIAfeZfB8Ht9Z-PgLeRol3rK1hKqXkS-jikoYYn-xonw5mVZiyxSg/exec",
+  googleSheetApi: "https://script.google.com/macros/s/AKfycby75Mpfx8376z3I7M7qTlRH9jgxILqop-8ogVODkSgQ4NZiY8p2jYhOCMIoCWgv3esK5A/exec",
 
   // Delivery fee (used by cart, checkout and WhatsApp messages)
   deliveryFee: 250,
