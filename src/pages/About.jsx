@@ -34,17 +34,17 @@ export default function About() {
         </p>
         <div className="about-store-gallery">
           <figure className="about-store-photo">
-            <Img src="/images/shop%201.jfif" alt="Interior view of The Optiks eyewear shop" />
+            <Img src="/images/shop-1.jpg" alt="Interior view of The Optiks eyewear shop" />
           </figure>
           <figure className="about-store-photo">
-            <Img src="/images/shop3.jpg" alt="Eyewear displays inside The Optiks shop" />
+            <Img src="/images/shop-3.jpg" alt="Eyewear displays inside The Optiks shop" />
           </figure>
         </div>
       </section>
 
       <section className="section container story" aria-labelledby="story-title">
         <div className="story-media">
-          <Img src="/images/logo.png" alt={STORE_CONFIG.name} className="story-logo" />
+          <Img src="/images/logo-small.png" alt={STORE_CONFIG.name} className="story-logo" />
         </div>
         <div className="story-copy">
           <SectionTitle id="story-title" align="left">Our story</SectionTitle>

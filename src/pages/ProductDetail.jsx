@@ -69,7 +69,7 @@ function ProductDetail({ id }) {
     product ? `${product.name}. ${product.description} Price: ${formatPrice(product.price)}.` : "",
     {
       noIndex: !product,
-      image: product ? gallery[0] : "/images/logo.png",
+      image: product ? gallery[0] : "/images/logo-small.png",
       openGraphType: product ? "product" : "website",
       schema: productSchema,
     }

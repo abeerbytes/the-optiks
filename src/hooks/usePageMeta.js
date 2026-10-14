@@ -34,7 +34,7 @@ export default function usePageMeta(title, description, {
     const siteUrl = configuredSiteUrl.replace(/\/+$/, "");
     const canonicalUrl = new URL(canonicalPath || location.pathname, `${siteUrl}/`).href;
     const imageUrl = new URL(image, `${siteUrl}/`).href;
-    const logoUrl = new URL("/images/logo.png", `${siteUrl}/`).href;
+    const logoUrl = new URL("/images/logo-small.png", `${siteUrl}/`).href;
     const robots = noIndex ? "noindex, follow" : "index, follow, max-image-preview:large";
 
     upsertMeta("name", "robots", robots);

@@ -4,7 +4,7 @@ import Img from "./Img";
 
 // To use your own logo: drop the file in public/images/ and update the
 // path below (and in config.js, if you want it kept in one place).
-const LOGO_SRC = "/images/logo.png";
+const LOGO_SRC = "/images/logo-small.png";
 
 export default function Logo() {
   return (

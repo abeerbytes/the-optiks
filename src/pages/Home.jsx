@@ -166,7 +166,7 @@ export default function Home() {
       <section id="visit" className="section container" aria-labelledby="visit-title">
         <div className="visit">
           <div className="visit-media">
-            <Img src="/images/shop%201.jfif" alt="Interior of The Optiks eyewear store" />
+            <Img src="/images/shop-1.jpg" alt="Interior of The Optiks eyewear store" />
           </div>
           <div className="visit-copy">
             <SectionTitle id="visit-title" align="left">Our Store</SectionTitle>

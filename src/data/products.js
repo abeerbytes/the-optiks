@@ -191,8 +191,8 @@ export const categoryDetails = {
   Eyeglasses: {
     description: "Everyday frames for work, study and screens.",
     images: {
-      Men: "/images/men-eye.png",
-      Women: "/images/woman-eye.jfif",
+      Men: "/images/men-eye.jpg",
+      Women: "/images/woman-eye.jpg",
     },
   },
 };
@@ -856,7 +856,6 @@ const products = [
 ];
 
 export default products;
-
 
 
 
