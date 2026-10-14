@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="950 80 400 400">
+  <defs>
+    <clipPath id="round">
+      <circle cx="1150" cy="280" r="190" />
+    </clipPath>
+  </defs>
+  <circle cx="1150" cy="280" r="198" fill="#fff" />
+  <image href="/images/logo.png" width="1680" height="980" clip-path="url(#round)" />
+  <circle cx="1150" cy="280" r="194" fill="none" stroke="#c90012" stroke-width="8" />
+</svg>
