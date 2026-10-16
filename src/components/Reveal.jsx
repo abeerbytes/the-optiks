@@ -4,10 +4,14 @@ import { useEffect, useRef, useState } from "react";
 // IntersectionObserver is missing or the user prefers reduced motion.
 export default function Reveal({ children, className = "", as: Tag = "div", ...rest }) {
   const ref = useRef(null);
-  const [shown, setShown] = useState(() => typeof IntersectionObserver === "undefined");
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
     if (shown || !ref.current) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

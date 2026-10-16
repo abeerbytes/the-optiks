@@ -70,8 +70,8 @@ export default function Products() {
   else if (gender !== "All" && category !== "All") heading = `${gender}'s ${category.toLowerCase()}`;
 
   usePageMeta(
-    `${heading} | ${STORE_CONFIG.name}`,
-    `Browse ${heading.toLowerCase()} from ${STORE_CONFIG.name}. Explore frame styles, compare prices, and order online.`,
+    `${heading === "All eyewear" ? "Eyeglasses" : heading} in Pakistan | ${STORE_CONFIG.name}`,
+    `Browse ${heading.toLowerCase()} from ${STORE_CONFIG.name}. Compare product photos, frame details and PKR prices; delivery is available across Pakistan.`,
     {
       noIndex: Boolean(q || color !== "All" || params.has("sort")),
       canonicalPath: (() => {

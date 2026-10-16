@@ -66,22 +66,24 @@ alternative. Product pages can add an item to the cart and proceed to checkout.
    `Failed`. An email failure does not undo or duplicate the saved order.
 
 ## 4. Deploy
-Any static host. It is a single-page app, so unknown URLs must fall back to `index.html`
-(already included: `vercel.json` for Vercel, `public/_redirects` for Netlify).
+Vercel serves the generated route documents and custom 404 directly; do not add a catch-all
+rewrite to `index.html`. The Netlify `_redirects` fallback remains for client-side navigation
+on Netlify deployments.
 
 ## SEO and Google setup
 
-The production site origin is `STORE_CONFIG.siteUrl` in `src/config.js` (`https://theoptiks.pk`).
+The production site origin is `STORE_CONFIG.siteUrl` in `src/config.js` (`https://www.theoptiks.pk`).
 An optional `VITE_SITE_URL` build environment variable can override it for another deployment.
-`npm run build` generates `dist/sitemap.xml` and `dist/robots.txt`; submit the deployed sitemap
-URL to Google Search Console after deployment. Product pages include Product and breadcrumb
-structured data, while cart, checkout, missing-product and non-canonical search/filter URLs are
-marked `noindex`.
+`npm run build` generates static, server-rendered HTML for the homepage, product listing, About,
+Contact, cart, checkout and every product, along with `dist/404.html`, `dist/sitemap.xml` and
+`dist/robots.txt`. Titles, descriptions, canonical links, social metadata and JSON-LD are included
+in each route's initial HTML. Product pages include Product and breadcrumb structured data, while
+cart, checkout, missing-product and free-text/colour/sort variants are marked `noindex`.
 
-This is a client-rendered single-page app. Google can render its page content, but unknown routes
-currently use the SPA fallback and return the app shell; they may return HTTP 200 instead of a
-true 404 response. A server-rendered or pre-rendered deployment is needed to return route-specific
-HTTP status codes and metadata in the initial HTML.
+The generated pages hydrate into the existing React app, preserving cart and navigation behavior.
+Vercel serves the generated route files directly and returns the custom 404 document for unknown
+paths; do not add a catch-all rewrite to `index.html`, which would turn missing URLs into soft 404s.
+The Netlify `_redirects` file remains for Netlify deployments.
 
 Google Analytics is not enabled by default: configure it only after creating a GA4 property and
 deciding how the site should handle analytics consent and its privacy notice. No measurement ID is

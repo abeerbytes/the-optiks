@@ -3,7 +3,7 @@
 // ============================================================
 export const STORE_CONFIG = {
   name: "The Optiks",                  // <-- your brand name
-  siteUrl: "https://theoptiks.pk",
+  siteUrl: "https://www.theoptiks.pk",
   whatsapp: "923329999773",            // country code + number, digits only
   currency: "PKR",
   // Public customer order API deployment URL.

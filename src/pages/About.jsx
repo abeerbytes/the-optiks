@@ -8,7 +8,7 @@ import SectionTitle from "../components/SectionTitle";
 
 export default function About() {
   usePageMeta(
-    `About us | ${STORE_CONFIG.name}`,
+    `About ${STORE_CONFIG.name} | Eyewear Store in Pakistan`,
     `Learn how ${STORE_CONFIG.name} chooses, checks and delivers premium eyewear across Pakistan.`
   );
 

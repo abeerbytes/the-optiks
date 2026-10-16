@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { STORE_CONFIG } from "../config";
+
+export const PageMetaContext = createContext(null);
 
 const upsertMeta = (attribute, key, content) => {
   let tag = document.head.querySelector(`meta[${attribute}="${key}"]`);
@@ -12,53 +14,29 @@ const upsertMeta = (attribute, key, content) => {
   tag.setAttribute("content", content);
 };
 
-export default function usePageMeta(title, description, {
+export function resolvePageMeta({
+  title,
+  description,
   noIndex = false,
   canonicalPath,
   image = "/images/banner.jpg",
   openGraphType = "website",
   schema = [],
-  enabled = true,
-} = {}) {
-  const location = useLocation();
-  const schemaJson = JSON.stringify(Array.isArray(schema) ? schema : [schema]).replace(/</g, "\\u003c");
+}, location) {
+  const configuredSiteUrl = import.meta.env.VITE_SITE_URL || STORE_CONFIG.siteUrl;
+  const siteUrl = configuredSiteUrl.replace(/\/+$/, "");
+  const canonicalUrl = new URL(canonicalPath || location.pathname, `${siteUrl}/`).href;
+  const imageUrl = new URL(image, `${siteUrl}/`).href;
+  const logoUrl = new URL("/images/logo-small.png", `${siteUrl}/`).href;
 
-  useEffect(() => {
-    if (!enabled) return;
-
-    document.title = title;
-
-    upsertMeta("name", "description", description || "Page not found.");
-
-    const configuredSiteUrl = import.meta.env.VITE_SITE_URL || STORE_CONFIG.siteUrl;
-    const siteUrl = configuredSiteUrl.replace(/\/+$/, "");
-    const canonicalUrl = new URL(canonicalPath || location.pathname, `${siteUrl}/`).href;
-    const imageUrl = new URL(image, `${siteUrl}/`).href;
-    const logoUrl = new URL("/images/logo-small.png", `${siteUrl}/`).href;
-    const robots = noIndex ? "noindex, follow" : "index, follow, max-image-preview:large";
-
-    upsertMeta("name", "robots", robots);
-    upsertMeta("property", "og:site_name", STORE_CONFIG.name);
-    upsertMeta("property", "og:type", openGraphType);
-    upsertMeta("property", "og:title", title);
-    upsertMeta("property", "og:description", description || "Page not found.");
-    upsertMeta("property", "og:url", canonicalUrl);
-    upsertMeta("property", "og:image", imageUrl);
-    upsertMeta("property", "og:image:alt", `${STORE_CONFIG.name} eyewear`);
-    upsertMeta("name", "twitter:card", "summary_large_image");
-    upsertMeta("name", "twitter:title", title);
-    upsertMeta("name", "twitter:description", description || "Page not found.");
-    upsertMeta("name", "twitter:image", imageUrl);
-
-    let canonical = document.head.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", canonicalUrl);
-
-    const globalSchemas = [
+  return {
+    title,
+    description: description || "Page not found.",
+    canonicalUrl,
+    imageUrl,
+    robots: noIndex ? "noindex, follow" : "index, follow, max-image-preview:large",
+    openGraphType,
+    schemas: [
       {
         "@context": "https://schema.org",
         "@type": "Organization",
@@ -77,8 +55,53 @@ export default function usePageMeta(title, description, {
           "query-input": "required name=search_term_string",
         },
       },
-      ...JSON.parse(schemaJson),
-    ];
+      ...(Array.isArray(schema) ? schema : [schema]),
+    ],
+  };
+}
+
+export default function usePageMeta(title, description, {
+  noIndex = false,
+  canonicalPath,
+  image = "/images/banner.jpg",
+  openGraphType = "website",
+  schema = [],
+  enabled = true,
+} = {}) {
+  const location = useLocation();
+  const registerMeta = useContext(PageMetaContext);
+  const schemaJson = JSON.stringify(Array.isArray(schema) ? schema : [schema]).replace(/</g, "\\u003c");
+  const pageOptions = { title, description, noIndex, canonicalPath, image, openGraphType, schema };
+
+  if (enabled && registerMeta) registerMeta(resolvePageMeta(pageOptions, location));
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    const metadata = resolvePageMeta(pageOptions, location);
+    document.title = metadata.title;
+    upsertMeta("name", "description", metadata.description);
+    upsertMeta("name", "robots", metadata.robots);
+    upsertMeta("property", "og:site_name", STORE_CONFIG.name);
+    upsertMeta("property", "og:type", metadata.openGraphType);
+    upsertMeta("property", "og:title", metadata.title);
+    upsertMeta("property", "og:description", metadata.description);
+    upsertMeta("property", "og:url", metadata.canonicalUrl);
+    upsertMeta("property", "og:image", metadata.imageUrl);
+    upsertMeta("property", "og:image:alt", `${STORE_CONFIG.name} eyewear`);
+    upsertMeta("name", "twitter:card", "summary_large_image");
+    upsertMeta("name", "twitter:title", metadata.title);
+    upsertMeta("name", "twitter:description", metadata.description);
+    upsertMeta("name", "twitter:image", metadata.imageUrl);
+
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", metadata.canonicalUrl);
+
     let structuredData = document.getElementById("structured-data");
     if (!structuredData) {
       structuredData = document.createElement("script");
@@ -86,6 +109,6 @@ export default function usePageMeta(title, description, {
       structuredData.type = "application/ld+json";
       document.head.appendChild(structuredData);
     }
-    structuredData.textContent = JSON.stringify(globalSchemas).replace(/</g, "\\u003c");
+    structuredData.textContent = JSON.stringify(metadata.schemas).replace(/</g, "\\u003c");
   }, [title, description, noIndex, canonicalPath, image, openGraphType, schemaJson, enabled, location.pathname, location.search]);
 }

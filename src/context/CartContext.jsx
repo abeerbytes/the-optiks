@@ -22,15 +22,22 @@ const CartContext = createContext(null);
 export const useCart = () => useContext(CartContext);
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState(loadCart);
+  const [cart, setCart] = useState([]);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
+    setCart(loadCart());
+    setInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if (!initialized) return;
     try {
       localStorage.setItem(CART_KEY, JSON.stringify(cart));
     } catch {
       /* storage unavailable (private mode) — cart still works in memory */
     }
-  }, [cart]);
+  }, [cart, initialized]);
 
   // keep several open tabs in sync
   useEffect(() => {

@@ -65,8 +65,8 @@ function ProductDetail({ id }) {
     : [];
 
   usePageMeta(
-    product ? `${product.name} | ${STORE_CONFIG.name}` : `Product not found | ${STORE_CONFIG.name}`,
-    product ? `${product.name}. ${product.description} Price: ${formatPrice(product.price)}.` : "",
+    product ? `${product.name} ${product.category} | ${STORE_CONFIG.name}` : `Product not found | ${STORE_CONFIG.name}`,
+    product ? `${product.name} ${product.category}. ${product.description} Price: ${formatPrice(product.price)}.` : "",
     {
       noIndex: !product,
       image: product ? gallery[0] : "/images/logo-small.png",

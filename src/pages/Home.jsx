@@ -21,8 +21,8 @@ const SERVICES = [
 
 export default function Home() {
   usePageMeta(
-    `${STORE_CONFIG.name} | Eyeglass Frames in Pakistan`,
-    "Explore eyeglass frames from The Optiks with product photos, frame details and clear PKR pricing. Standard delivery is available across Pakistan."
+    `Eyeglasses Online in Pakistan | ${STORE_CONFIG.name}`,
+    "Shop eyeglass frames from The Optiks. Explore product photos, frame details, PKR prices and delivery across Pakistan."
   );
 
   // Everything below is generated from products.js

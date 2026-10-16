@@ -10,7 +10,7 @@ const PK_MOBILE = /^(?:\+92|0092|92|0)?3\d{9}$/;
 
 export default function Contact() {
   usePageMeta(
-    `Contact | ${STORE_CONFIG.name}`,
+    `Contact ${STORE_CONFIG.name} | Eyewear Orders in Pakistan`,
     `Contact ${STORE_CONFIG.name} about eyewear, orders, delivery or store information.`
   );
 
